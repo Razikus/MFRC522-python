@@ -10,8 +10,8 @@ import SimpleMFRC522
 reader = SimpleMFRC522.SimpleMFRC522()
 
 try:
-		uid = reader.id()
-		print(uid)
+        id = reader.id()
+		print(id)
         id, text = reader.read()
         print(id)
         print(text)

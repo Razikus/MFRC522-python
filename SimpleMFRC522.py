@@ -14,10 +14,10 @@ class SimpleMFRC522:
 		self.READER = MFRC522.MFRC522()
 	
 	def read(self):
-			id, text = self.read_no_block()				
-			while not id:
-					id, text = self.read_no_block()	
-			return id, text
+		id, text = self.read_no_block()				
+		while not id:
+				id, text = self.read_no_block()	
+		return id, text
 
 	def id(self):
 		id = self.no_id()			
@@ -26,7 +26,7 @@ class SimpleMFRC522:
 		return id
 	
 	def read_no_block(self):
-		id = self.no_id()
+		uid, id = self.no_id()
 		self.READER.MFRC522_SelectTag(uid)
 		status = self.READER.MFRC522_Auth(self.READER.PICC_AUTHENT1A, 4, self.KEY, uid)
 		data = []
@@ -49,7 +49,7 @@ class SimpleMFRC522:
 		if status != self.READER.MI_OK:
 				return None, None
 		id = self.uid_to_num(uid)
-		return id
+		return uid, id
 		
 	def write(self, text):
 			id, text_in = self.write_no_block(text)				
