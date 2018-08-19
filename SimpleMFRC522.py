@@ -49,7 +49,6 @@ class SimpleMFRC522:
     self.READER.MFRC522_StopCrypto1()
     return id, text_read
     
-
     
   def write(self, text):
       id, text_in = self.write_no_block(text)        
