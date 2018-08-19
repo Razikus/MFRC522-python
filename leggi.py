@@ -65,7 +65,7 @@ while continue_reading:
         (status,uid) = MIFAREReader.MFRC522_Anticoll()
 
         # If we have the UID, continue
-        if status == MIFAREReader.MI_OK #and uid != uid_buffer:
+        if status == MIFAREReader.MI_OK: #and uid != uid_buffer:
 
             # Store UID in buffer
             uid_buffer = uid
