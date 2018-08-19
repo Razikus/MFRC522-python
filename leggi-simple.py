@@ -10,10 +10,10 @@ import SimpleMFRC522
 reader = SimpleMFRC522.SimpleMFRC522()
 
 try:
-        id = reader.id()
-		print(id)
-        id, text = reader.read()
-        print(id)
-        print(text)
+	id = reader.id()
+	print(id)
+	id, text = reader.read()
+	print(id)
+	print(text)
 finally:
-        GPIO.cleanup()
+	GPIO.cleanup()
