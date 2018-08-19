@@ -41,41 +41,55 @@ signal.signal(signal.SIGINT, end_read)
 MIFAREReader = MFRC522.MFRC522()
 
 # Welcome message
-print "Welcome to the MFRC522 data read example"
+print "Welcome to the RC522 data read example"
 print "Press Ctrl-C to stop."
+
+uid_buffer = 0
+keys = [ [0xD3,0xF7,0xD3,0xF7,0xD3,0xF7] ] #, [0xA0,0xA1,0xA2,0xA3,0xA4,0xA5]], [0xFF,0xFF,0xFF,0xFF,0xFF,0xFF], [0x00,0x00,0x00,0x00,0x00,0x$
 
 # This loop keeps checking for chips. If one is near it will get the UID and authenticate
 while continue_reading:
-    
-    # Scan for cards    
-    (status,TagType) = MIFAREReader.MFRC522_Request(MIFAREReader.PICC_REQIDL)
-
-    # If a card is found
-    if status == MIFAREReader.MI_OK:
-        print "Card detected"
-    
-    # Get the UID of the card
-    (status,uid) = MIFAREReader.MFRC522_Anticoll()
-
-    # If we have the UID, continue
-    if status == MIFAREReader.MI_OK:
-
-        # Print UID
-        print "Card read UID: %s,%s,%s,%s" % (uid[0], uid[1], uid[2], uid[3])
-    
-        # This is the default key for authentication
-        key = [0x00,0x00,0x00,0x00,0x00,0x0]
+    #ToDo: should be 0-63 eccetto le quarte
+    for sector in range(4,6):
+        #ToDo: check this, add break on fail
+        #for key in keys:
         
-        # Select the scanned tag
-        MIFAREReader.MFRC522_SelectTag(uid)
+        # Scan for cards    
+        (status,TagType) = MIFAREReader.MFRC522_Request(MIFAREReader.PICC_REQIDL)
 
-        # Authenticate
-        status = MIFAREReader.MFRC522_Auth(MIFAREReader.PICC_AUTHENT1A, 8, key, uid)
-
-        # Check if authenticated
+        # If a card is found
         if status == MIFAREReader.MI_OK:
-            MIFAREReader.MFRC522_Read(8)
-            MIFAREReader.MFRC522_StopCrypto1()
-        else:
-            print "Authentication error"
+            print "Card detected"
+        
+        # Get the UID of the card
+        (status,uid) = MIFAREReader.MFRC522_Anticoll()
+
+        # If we have the UID, continue
+        if status == MIFAREReader.MI_OK #and uid != uid_buffer:
+
+            # Store UID in buffer
+            uid_buffer = uid
+
+            # Print UID
+            #print "Card read UID: %s,%s,%s,%s" % (uid[0], uid[1], uid[2], uid[3])
+        
+            # This is the default key for authentication
+            key = [0xD3,0xF7,0xD3,0xF7,0xD3,0xF7] 
+            
+            # Select the scanned tag
+            MIFAREReader.MFRC522_SelectTag(uid)
+
+            # Authenticate
+            status = MIFAREReader.MFRC522_Auth(MIFAREReader.PICC_AUTHENT1A, 8, key, uid)
+
+            # Check if authenticated
+            if status == MIFAREReader.MI_OK:
+                #ToDo: store content in buffer
+                MIFAREReader.MFRC522_Read(8)
+                MIFAREReader.MFRC522_StopCrypto1()
+                #MIFAREReader.MFRC522_Init()
+            else:
+                print "Authentication error"
+                #ToDo: rimuovere in produzione, handle errore
+                continue_reading = False
 
