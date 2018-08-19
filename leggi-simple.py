@@ -8,12 +8,28 @@ import RPi.GPIO as GPIO
 import SimpleMFRC522
 
 reader = SimpleMFRC522.SimpleMFRC522()
-
 try:
-	id = reader.id()
-	print(id)
-	id, text = reader.read()
-	print(id)
+	#id = reader.get_id()
+	id, text = reader.read(0,1)
+	#print(id)
+	print(text)
+finally:
+	GPIO.cleanup()
+
+reader = SimpleMFRC522.SimpleMFRC522()
+try:
+	#id = reader.get_id()
+	id, text = reader.read(1,0)
+	#print(id)
+	print(text)
+finally:
+	GPIO.cleanup()
+
+reader = SimpleMFRC522.SimpleMFRC522()
+try:
+	#id = reader.get_id()
+	id, text = reader.read(2,0)
+	#print(id)
 	print(text)
 finally:
 	GPIO.cleanup()
