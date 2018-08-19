@@ -8,7 +8,7 @@ class SimpleMFRC522:
 	READER = None;
 	
 	KEY = [0xD3,0xF7,0xD3,0xF7,0xD3,0xF7]
-	BLOCK_ADDRS = [8, 9, 10]
+	BLOCK_ADDRS = [1, 2, 4, 5, 6, 8, 9, 10, 12, 13, 14]
 	
 	def __init__(self):
 		self.READER = MFRC522.MFRC522()
@@ -49,7 +49,7 @@ class SimpleMFRC522:
 				if data:
 						 text_read = ''.join(chr(i) for i in data)
 		self.READER.MFRC522_StopCrypto1()
-		return id, data
+		return id, text_read
 		
 
 		
