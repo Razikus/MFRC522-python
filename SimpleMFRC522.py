@@ -49,7 +49,7 @@ class SimpleMFRC522:
 				if data:
 						 text_read = ''.join(chr(i) for i in data)
 		self.READER.MFRC522_StopCrypto1()
-		return id, text_read
+		return id, data
 		
 
 		
