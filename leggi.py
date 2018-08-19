@@ -85,7 +85,8 @@ while continue_reading:
             # Check if authenticated
             if status == MIFAREReader.MI_OK:
                 #ToDo: store content in buffer
-                MIFAREReader.MFRC522_Read(8)
+                x = MIFAREReader.MFRC522_Read(8)
+                print(x)
                 MIFAREReader.MFRC522_StopCrypto1()
                 #MIFAREReader.MFRC522_Init()
             else:
